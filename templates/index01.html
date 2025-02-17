@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ontology Search</title>
+    <style>
+        body {
+            font-family: 'Roboto', 'Noto Sans', 'Poppins', Tahoma, Verdana, sans-serif;
+            background-color: #ffe6e6;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 900px;
+            margin: 40px auto;
+            background-color: #fff1fb;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #000000;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .language-switch {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .language-switch a {
+            font-size: 1.1rem;
+            color: #dd4141;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        .language-switch a:hover {
+            text-decoration: underline;
+        }
+
+        form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            width: 60%;
+            font-size: 1rem;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #ffd2fa;
+            color: rgb(0, 0, 0);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #ffaff6;
+        }
+
+        .results {
+            margin-top: 20px;
+            background-color: rgb(240, 224, 255);
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #daf3ff;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .current-lang {
+            font-size: 1.1rem;
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Language Switch -->
+        <div class="language-switch">
+            <span class="current-lang">Current Language : {{ 'ไทย' if lang == 'th' else 'English' }}</span>
+            <br>
+            <a href="?lang=th">ไทย</a> | <a href="?lang=en">English</a>
+        </div>
+
+        <!-- Title Section with Dynamic Text -->
+        <h1>
+            {{ 'ค้นหาข้อมูลจังหวัด' if lang == 'th' else 'Province Search'
+            }}
+        </h1>
+
+        <!-- Search Form -->
+        <form method="post">
+            <input type="text" name="query"
+                placeholder="{{ 'Enter province name' if lang == 'en' else 'กรุณากรอกชื่อจังหวัด' }}" required>
+            <input type="hidden" name="lang" value="{{ lang }}">
+            <input type="submit" value="{{ 'Search' if lang == 'en' else 'ค้นหา' }}">
+        </form>
+
+        <!-- Results Section -->
+        {% if results %}
+        <div class="results">
+            <h2>{{ 'Details of Province : ' + province_name if lang == 'en' else 'รายละเอียดของจังหวัด : ' +
+                province_name
+                }}</h2>
+            <ul>
+                {% for result in results %}
+                <li>{{ result }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+</body>
+
+</html>
